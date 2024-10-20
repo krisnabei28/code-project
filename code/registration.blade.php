@@ -20,7 +20,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             max-width: 500px;
             width: 100%;
-            margin: 60px auto; /* Center the login card */
+            margin: 60px auto; 
         }
 
         .login-card img {
@@ -46,7 +46,7 @@
 
         .login-btn:hover {
             background-color: #2980b9;
-            transform: translateY(-2px); /* Slight lift on hover */
+            transform: translateY(-2px); 
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
@@ -75,29 +75,26 @@
             text-decoration: underline;
         }
 
-        /* Spacing for larger screens */
         @media (min-width: 768px) {
             .mt-custom {
-                margin-top: 100px; /* Larger margin for bigger screens */
+                margin-top: 100px
             }
         }
 
-        /* Increased spacing for smaller screens */
         @media (max-width: 768px) {
             .mt-custom {
-                margin-top: 100px; /* Added margin for mobile view */
-                padding: 20px; /* Ensure enough padding inside login card */
+                margin-top: 100px;
+                padding: 20px;
             }
 
             .login-card {
-                padding: 20px; /* Smaller padding on mobile */
+                padding: 20px;
             }
         }
 
-        /* Modal Styling */
         .stylish-modal {
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for emphasis */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); 
             padding: 20px;
             transition: all 0.3s ease;
         }
@@ -117,7 +114,6 @@
             border-top: none;
         }
 
-        /* Action Button Styles */
         .btn-danger-custom {
             background-color: red;
             border-radius: 30px;
@@ -130,74 +126,139 @@
             background-color: #c0392b;  
             transform: translateY(-2px);
         }
+
+        
     </style>
 </head>
 <body>
-    @include('partials.navbar') <!-- Included navbar -->
+    @include('partials.navbar')
 
-    <!-- Signup Card -->
-    <div class="login-card mt-custom">
-        <div class="text-center mb-4">
-            <img src="img/logo.png" alt="Logo">
-            <h2>Buat Akun Baru di SPK Kontrasepsi</h2>
-        </div>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
-        <!-- Email, Username, Password, Confirm Password Fields -->
-        <form id="signupForm">
-            <input type="email" class="form-control" placeholder="Email" required id="emailInput">
-            <input type="text" class="form-control" placeholder="Username" required>
-            <input type="password" class="form-control" placeholder="Password" required id="passwordInput">
-            <input type="password" class="form-control" placeholder="Konfirmasi Password" required id="confirmPasswordInput">
-            <div class="form-check d-flex align-items-center mb-3">
-                <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
-                <label class="form-check-label ms-1" for="showPassword">Tampilkan Password</label>
-            </div>
-            <button type="button" class="login-btn" onclick="checkForm()">Daftar</button>
-        </form>
-
-        <!-- Login Link -->
-        <div class="footer-link">
-            <p>Sudah punya akun? <a href="/login">Masuk di sini</a></p>
-        </div>
-    </div>
-
-    <!-- Modal for Password Mismatch Warning -->
-    <div class="modal fade" id="passwordMismatchModal" tabindex="-1" aria-labelledby="passwordMismatchLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content stylish-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title d-flex align-items-center" id="passwordMismatchLabel">
-                        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.5rem;"></i> 
-                        Password Tidak Cocok
-                    </h5>
-                    <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    Password dan Konfirmasi Password tidak cocok. Silakan coba lagi.
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger-custom" data-bs-dismiss="modal">Tutup</button>
+        @if(session('success'))
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                    <div class="modal-content border-0 shadow-lg rounded">
+                        <div class="modal-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="modal-title fw-bold" id="successModalLabel">Registrasi Berhasil!</h5>
+                            <div class="mb-3"></div>
+                            <p>{{ session('success') }}</p>
+                            <a href="/login" class="btn btn-success w-100 mt-3">Oke</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                });
+            </script>
+        @endif
+    
 
-    <!-- Modal for Email Format Error -->
-    <div class="modal fade" id="emailErrorModal" tabindex="-1" aria-labelledby="emailErrorLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content stylish-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title d-flex align-items-center" id="emailErrorLabel">
-                        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.5rem;"></i> 
-                        Format Email Salah
-                    </h5>
-                    <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="login-card mt-custom">
+            <div class="text-center mb-4">
+                <img src="img/logo.png" alt="Logo">
+                <h2>Buat Akun Baru di SPK Kontrasepsi</h2>
+            </div>
+
+            <form id="signupForm" action="/registration" method="POST" onsubmit="return checkForm()">
+                @csrf
+                <input type="text" name="fullname" class="form-control" placeholder="Nama Lengkap" required id="fullnameInput">
+                <input type="text" name="username" class="form-control" placeholder="Username" required id="usernameInput">
+                <input type="text" name="phone_number" class="form-control" placeholder="Masukkan Nomor HP (+62)" id="hpInput">
+                <input type="password" name="password" class="form-control" placeholder="Password" required id="passwordInput">
+                <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password" required id="confirmPasswordInput">
+                
+                <div class="form-check d-flex align-items-center mb-3">
+                    <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
+                    <label class="form-check-label ms-1" for="showPassword">Tampilkan Password</label>
                 </div>
-                <div class="modal-body text-center">
-                    Format email yang Anda masukkan tidak valid. Silakan periksa kembali.
+                <button type="submit" class="login-btn">Daftar</button>
+            </form>        
+
+            <div class="footer-link">
+                <p>Sudah punya akun? <a href="/login">Masuk di sini</a></p>
+            </div>
+        </div>
+
+        <div class="modal fade" id="usernameErrorModal" tabindex="-1" aria-labelledby="usernameErrorLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                <div class="modal-content border-0 shadow-lg rounded">
+                    <div class="modal-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="usernameErrorLabel">WARNING!</h5>
+                        <p>Username harus terdiri dari kombinasi huruf dan angka.</p>
+                        <p>Contoh : Agus06</p>
+                        <button type="button" class="btn btn-danger w-100 mt-3" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-danger-custom" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="hpErrorModal" tabindex="-1" aria-labelledby="hpErrorLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                <div class="modal-content border-0 shadow-lg rounded">
+                    <div class="modal-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="hpErrorLabel">Warning!</h5>
+                        <p>Format nomor HP yang Anda masukkan tidak valid. Silakan periksa kembali.</p>
+                        <button type="button" class="btn btn-danger w-100 mt-3" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="passwordMismatchModal" tabindex="-1" aria-labelledby="passwordMismatchLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                <div class="modal-content border-0 shadow-lg rounded">
+                    <div class="modal-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="passwordMismatchLabel">WARNING!</h5>
+                        <p>Password dan Konfirmasi Password tidak cocok. Silakan coba lagi.</p>
+                        <button type="button" class="btn btn-danger w-100 mt-3" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="passwordPatternErrorModal" tabindex="-1" aria-labelledby="passwordPatternErrorLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                <div class="modal-content border-0 shadow-lg rounded">
+                    <div class="modal-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="passwordPatternErrorLabel">WARNING!</h5>
+                        <p>Password harus terdiri dari huruf, angka dan simbol.</p>
+                        <button type="button" class="btn btn-danger w-100 mt-3" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="passwordLengthErrorModal" tabindex="-1" aria-labelledby="passwordLengthErrorLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="transform: translateX(-1.6%);">
+                <div class="modal-content border-0 shadow-lg rounded">
+                    <div class="modal-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold" id="passwordLengthErrorLabel">Warning!</h5>
+                        <p>Panjang password harus minimal 5 karakter. Silakan coba lagi.</p>
+                        <button type="button" class="btn btn-danger w-100 mt-3" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,41 +266,86 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Toggle password visibility
         function togglePassword() {
-            var password = document.getElementById("passwordInput");
-            var confirmPassword = document.getElementById("confirmPasswordInput");
-            if (password.type === "password" || confirmPassword.type === "password") {
-                password.type = "text";
-                confirmPassword.type = "text";
-            } else {
-                password.type = "password";
-                confirmPassword.type = "password";
-            }
+            const passwordFields = ['passwordInput', 'confirmPasswordInput'].map(id => document.getElementById(id));
+    
+            passwordFields.forEach(field => {
+                field.type = field.type === "password" ? "text" : "password";
+            });
         }
 
-        // Check if email is in correct format and if passwords match
         function checkForm() {
-            var email = document.getElementById("emailInput").value;
-            var password = document.getElementById("passwordInput").value;
-            var confirmPassword = document.getElementById("confirmPasswordInput").value;
+            const hpInput = document.getElementById("hpInput");
+            const passwordInput = document.getElementById("passwordInput");
+            const confirmPasswordInput = document.getElementById("confirmPasswordInput");
+            const usernameInput = document.getElementById("usernameInput");
 
-            // Regex to check email format
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const formattedPhone = formatPhoneNumber(hpInput.value.trim());
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const username = usernameInput.value;
 
-            if (!emailPattern.test(email)) {
-                var emailErrorModal = new bootstrap.Modal(document.getElementById('emailErrorModal'));
-                emailErrorModal.show();
-                return;
+            if (!isValidUsername(username)) {
+                return displayModal('usernameErrorModal');
             }
 
-            if (password !== confirmPassword) {
-                var passwordMismatchModal = new bootstrap.Modal(document.getElementById('passwordMismatchModal'));
-                passwordMismatchModal.show();
-            } else {
-                document.getElementById("signupForm").submit();
+            if (!isValidPhoneNumber(formattedPhone)) {
+                return displayModal('hpErrorModal');
             }
+
+            if (!isValidPassword(password, confirmPassword)) {
+                return false;
+            }
+
+            hpInput.value = formattedPhone;
+
+            return true;
         }
-    </script>
+    
+        function formatPhoneNumber(hp) {
+            if (hp.startsWith("0")) {
+                return "+62" + hp.slice(1);
+            } else if (hp.startsWith("62") && !hp.startsWith("+62")) {
+                return "+" + hp;
+            }
+            return hp;
+        }
+    
+        function isValidPhoneNumber(hp) {
+            const phonePattern = /^\+628\d{8,11}$/;
+            return phonePattern.test(hp);
+        }
+    
+        function isValidPassword(password, confirmPassword) {
+            if (password.length < 5) {
+                return displayModal('passwordLengthErrorModal');
+            }
+            if (password !== confirmPassword) {
+                return displayModal('passwordMismatchModal');
+            }
+    
+            const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*\(\)\-_])[a-zA-Z0-9!@#\$%\^&\*\(\)\-_]+$/;
+            if (!passwordPattern.test(password)) {
+                return displayModal('passwordPatternErrorModal');
+            }
+    
+            return true;
+        }
+    
+        function isValidUsername(username) {
+            const usernamePattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$/;
+            return usernamePattern.test(username);
+        }
+
+        function displayModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+            return false;
+        }
+    </script>    
+    
 </body>
 </html>
